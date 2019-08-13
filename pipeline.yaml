@@ -1,6 +1,6 @@
 ---
 resources:
-- name: myapp-code-repository
+- name: myapp-code-repository1
   type: git
   source:
     uri: "https://github.com/jskim7827/myapp-code-repository1.git"
