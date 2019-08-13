@@ -1,6 +1,6 @@
 ---
 resources:
-- name: myapp-code-repository1
+- name: myapp-code-repository
   type: git
   source:
     uri: "https://github.com/jskim7827/myapp-code-repository1.git"
@@ -19,15 +19,15 @@ jobs:
           repository: python
           tag: 3.4
       inputs:
-        - name: myapp-code-repository
+        - name: myapp-code-repository1
       run:
         path: python
         args:
-          - "myapp-code-repository/tests.py"
+          - "myapp-code-repository1/tests.py"
 
 - name: deploy production environment changes
   plan:
-  - get: myapp-code-repository
+  - get: myapp-code-repository1
     trigger: true
     passed:
       - run unit tests
@@ -40,36 +40,5 @@ jobs:
           repository: python
           tag: 3.4
       inputs:
-        - name: myapp-code-repository
-      params:
-        SERVICE_ACCOUNT_KEY:
+        - name: myapp-code-repository1
       run:
-        path:
-        args:
-
-
-
-- name: deploy to production
-  plan:
-  - get: myapp-code-repository
-    trigger: true
-    passed:
-      - deploy production environment changes
-  - task: deploy to production
-    config:
-      platform: linux
-      image_resource:
-        type: docker-image
-        source:
-          repository:
-          tag: 229.0.0
-      inputs:
-        - name:
-      params:
-        SERVICE_ACCOUNT_KEY:
-        AWS_ACCESS_KEY:
-        AWS_SECRET_KEY:
-      run:
-        path:
-        args:
-          
